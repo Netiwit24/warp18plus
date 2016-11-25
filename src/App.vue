@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div id="app">
     <router-view></router-view>
   </div>
 </template>
@@ -11,7 +11,7 @@ export default {
   },
   computed: {},
   mounted () {
-    this.$router.push('/index')
+    // this.$router.push('/')
   },
   methods: {},
   components: {}

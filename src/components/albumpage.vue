@@ -1,17 +1,17 @@
 <template>
+
   <div class="hello">
     <div id="app">
       <div v-if="ready" class="">
+
         <button v-if="authorized" @click="logout()" class="btn btn-default">Logout</button>
         <button v-else="authorized" @click="login()" class="btn btn-default">Login</button>
 
-        <h1>Warping to the center of the universe</h1>
+        <h1>Warp 18+</h1>
+        <h2>Hi!! {{ profile.name }} Welcome</h2>
       <ul>
         <li>
-          <router-link to="/bar">Cup E</router-link>
-        </li>
-        <li>
-          <router-link to="/foo">Cup A</router-link>
+          <router-link to="/">ไปหน้าแรก</router-link>
         </li>
       </ul>
       <transition name="slide-fade" mode="out-in">
@@ -22,33 +22,29 @@
         <div v-if="authorized" class="">
           <div class="row">
 
-            <div class="col-md-6">
+            <div class="col-md-8">
               <div v-for="album in albums" v-if="album.cover_photo" class="box">
                 <h1>{{ album.name }}</h1>
-                <img width = '100%' @click="getPhotosByAlbumId(album.id)" :src="'https://graph.facebook.com/' + album.cover_photo.id + '/picture'" alt=""/>
+                <router-link to="/imagepage"><img width = '100%' @click="getPhotosByAlbumId(album.id)" :src="'https://graph.facebook.com/' + album.cover_photo.id + '/picture'" alt=""></img></router-link>
+                <h1>{{album.id }}</h1>
               </div>
             </div>
-
-            <div class="col-md-6">
-              <img v-for="photo in photos" :src="photo.images[5].source" alt="" />
-            </div>
-
           </div>
         </div>
       </div>
 
       <div v-else="ready" class="">
         <center>
-          <img src="/static/warp.gif" alt="" width="200px"/>
+          <img src="/static/warp.gif" alt="" width="200px" onClick="location.reload()"/>
         </center>
       </div>
     </div>
-    <h1>{{ msg }}</h1>
   </div>
 </template>
 
 <script>
 /* global FB */
+/* global location */
 import Hello from './Hello'
 
 export default {
@@ -63,13 +59,19 @@ export default {
       pagename: [],
       profile: {},
       ready: false,
+      re: true,
       authorized: false
     }
   },
   methods: {
+    reload () {
+      location.reload()
+      setTimeout(function () {
+      }, 999999)
+    },
     getAlbums () {
       let vm = this
-      FB.api('/cupemag/albums', {fields: ['cover_photo', 'name']}, function (response) {
+      FB.api('/cupamag/albums', {fields: ['cover_photo', 'name']}, function (response) {
         console.log(response)
         vm.$set(vm, 'albums', response.data)
       })
@@ -79,6 +81,7 @@ export default {
       FB.api('/' + albumId + '/photos', {fields: ['images']}, function (response) {
         console.log(response)
         vm.$set(vm, 'photos', response.data)
+        console.log(albumId)
       })
     },
     getProfile () {
@@ -103,8 +106,10 @@ export default {
     statusChangeCallback (response) {
       let vm = this
       vm.ready = true
+      vm.re = false
       console.log('statusChangeCallback')
       console.log(response)
+      console.log(vm.re)
       if (response.status === 'connected') {
         vm.authorized = true
         vm.getProfile()
@@ -118,17 +123,18 @@ export default {
   },
   mounted () {
     let vm = this
-    window.fbAsyncInit = () => {
-      FB.init({
-        appId: '365137310495361',
-        cookie: true,
-        xfbml: true,
-        version: 'v2.8'
-      })
-      FB.getLoginStatus(function (response) {
-        vm.statusChangeCallback(response)
-      })
-    }
+    // window.fbAsyncInit = () => {
+    console.log('test')
+    FB.init({
+      appId: '365137310495361',
+      cookie: true,
+      xfbml: true,
+      version: 'v2.8'
+    })
+    FB.getLoginStatus(function (response) {
+      vm.statusChangeCallback(response)
+    })
+    // }
   }
 }
 </script>

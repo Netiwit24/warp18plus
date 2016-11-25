@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/albumpage', component: albumpage },
   { path: '/imagepage', component: imagepage },
-  { path: '/index', component: index }
+  { path: '/', component: index }
 ]
 const router = new VueRouter({
   routes // short for routes: routes
