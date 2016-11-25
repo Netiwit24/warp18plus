@@ -27,6 +27,7 @@
               <div v-for="album in albums" v-if="album.cover_photo" class="box">
                 <h1>{{ album.name }}</h1>
                 <img width = '100%' @click="getPhotosByAlbumId(album.id)" :src="'https://graph.facebook.com/' + album.cover_photo.id + '/picture'" alt=""/>
+                <h1>{{id}}</h1>
               </div>
             </div>
 
@@ -53,7 +54,7 @@
 import Hello from './Hello'
 
 export default {
-  name: 'albumpage',
+  name: 'imagepage',
   props: ['id'],
   components: {
     Hello

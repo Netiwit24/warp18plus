@@ -15,7 +15,7 @@
         </li>
       </ul>
       <transition name="slide-fade" mode="out-in">
-        <router-view></router-view>
+        <router-view :id="id"></router-view>
       </transition>
         <br><br>
 
@@ -54,6 +54,7 @@ export default {
   },
   data () {
     return {
+      id: '1',
       albums: [],
       photos: [],
       pagename: [],
@@ -82,6 +83,7 @@ export default {
         console.log(response)
         vm.$set(vm, 'photos', response.data)
         console.log(albumId)
+        return albumId
       })
     },
     getProfile () {
