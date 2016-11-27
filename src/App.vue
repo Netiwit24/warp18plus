@@ -1,19 +1,31 @@
 <template lang="html">
   <div id="app">
-    <router-view></router-view>
+    <router-view :id="id" :set-id-album="setIdAlbum" :page="page" :set-id-page="setIdPage"></router-view>
   </div>
 </template>
 
 <script>
 export default {
   data () {
-    return {}
+    return {
+      id: '',
+      page: ''
+    }
   },
   computed: {},
   mounted () {
-    // this.$router.push('/')
+    this.$router.push('/')
   },
-  methods: {},
+  methods: {
+    setIdAlbum (id) {
+      this.id = id
+      console.log(id)
+    },
+    setIdPage (page) {
+      this.page = page
+      console.log(page)
+    }
+  },
   components: {}
 }
 </script>

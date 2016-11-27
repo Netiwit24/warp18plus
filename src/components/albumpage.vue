@@ -1,4 +1,4 @@
-<template>
+้เด<template>
 
   <div class="hello">
     <div id="app">
@@ -9,28 +9,22 @@
 
         <h1>Warp 18+</h1>
         <h2>Hi!! {{ profile.name }} Welcome</h2>
-      <ul>
-        <li>
-          <router-link to="/">ไปหน้าแรก</router-link>
-        </li>
-      </ul>
-      <transition name="slide-fade" mode="out-in">
+
+        <router-link to="/">ไปหน้าแรก</router-link>
         <router-view :id="id"></router-view>
-      </transition>
-        <br><br>
 
         <div v-if="authorized" class="">
           <div class="row">
-
             <div class="col-md-8">
               <div v-for="album in albums" v-if="album.cover_photo" class="box">
                 <h1>{{ album.name }}</h1>
-                <router-link to="/imagepage"><img width = '100%' @click="getPhotosByAlbumId(album.id)" :src="'https://graph.facebook.com/' + album.cover_photo.id + '/picture'" alt=""></img></router-link>
+                <router-link to="/imagepage"><img width = '100%' @click="setIdAlbum(album.id)" :src="'https://graph.facebook.com/' + album.cover_photo.id + '/picture'" alt=""></img></router-link>
                 <h1>{{album.id }}</h1>
               </div>
             </div>
           </div>
         </div>
+
       </div>
 
       <div v-else="ready" class="">
@@ -44,17 +38,16 @@
 
 <script>
 /* global FB */
-/* global location */
 import Hello from './Hello'
 
 export default {
   name: 'albumpage',
+  props: ['id', 'setIdAlbum', 'page', 'setIdPage'],
   components: {
     Hello
   },
   data () {
     return {
-      id: '1',
       albums: [],
       photos: [],
       pagename: [],
@@ -65,14 +58,9 @@ export default {
     }
   },
   methods: {
-    reload () {
-      location.reload()
-      setTimeout(function () {
-      }, 999999)
-    },
     getAlbums () {
       let vm = this
-      FB.api('/cupamag/albums', {fields: ['cover_photo', 'name']}, function (response) {
+      FB.api('/' + this.page + '/albums', {fields: ['cover_photo', 'name']}, function (response) {
         console.log(response)
         vm.$set(vm, 'albums', response.data)
       })
@@ -126,7 +114,6 @@ export default {
   mounted () {
     let vm = this
     // window.fbAsyncInit = () => {
-    console.log('test')
     FB.init({
       appId: '365137310495361',
       cookie: true,

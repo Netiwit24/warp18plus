@@ -1,40 +1,21 @@
 <template>
-
   <div class="hello">
     <div id="app">
       <div v-if="ready" class="">
+
         <button v-if="authorized" @click="logout()" class="btn btn-default">Logout</button>
         <button v-else="authorized" @click="login()" class="btn btn-default">Login</button>
 
         <h1>Warp</h1>
-      <ul>
-        <li>
-          <router-link to="/albumpage">Cup E</router-link>
-        </li>
-        <li>
-          <router-link to="/imagepage">Cup A</router-link>
-        </li>
-      </ul>
-      <transition name="slide-fade" mode="out-in">
+          <router-link to="/albumpage">Back</router-link>
         <router-view></router-view>
-      </transition>
         <br><br>
 
         <div v-if="authorized" class="">
           <div class="row">
-
-            <div class="col-md-6">
-              <div v-for="album in albums" v-if="album.cover_photo" class="box">
-                <h1>{{ album.name }}</h1>
-                <img width = '100%' @click="getPhotosByAlbumId(album.id)" :src="'https://graph.facebook.com/' + album.cover_photo.id + '/picture'" alt=""/>
-                <h1>{{id}}</h1>
-              </div>
-            </div>
-
             <div class="col-md-6">
               <img v-for="photo in photos" :src="photo.images[5].source" alt="" />
             </div>
-
           </div>
         </div>
       </div>
@@ -45,7 +26,6 @@
         </center>
       </div>
     </div>
-    <!-- <h1>{{ msg }}</h1> -->
   </div>
 </template>
 
@@ -120,6 +100,7 @@ export default {
     }
   },
   mounted () {
+    this.getPhotosByAlbumId(this.id)
     let vm = this
     // window.fbAsyncInit = () => {
     FB.init({
